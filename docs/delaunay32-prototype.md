@@ -13,8 +13,10 @@ npm run benchmark:delaunay32
 npm start
 ```
 
-Open `/delaunay32.html` on the local Vite server. The browser smoke test initializes
-WASM once and subtracts overlapping boxes; expected volume: 4. To use the adapter:
+Open `/delaunay32.html` on the local Vite server. The browser comparison runs five scenarios against all three splitters. Each case
+uses an isolated worker, 10 warmups and 30 measured evaluations, with a 20-second
+timeout. The page shows median, p95, volume checks and downloadable raw samples.
+Timing excludes WASM loading, geometry preparation and worker messaging. To use the adapter:
 
 ```js
 import { createDelaunay32 } from 'delaunay32';
@@ -85,3 +87,24 @@ fixtures; add manifold/shared-edge checks, sliver and near-coplanar stress cases
 translations and random intersection graphs; and benchmark representative browser scenes.
 Neither integer predicates nor these tests establish that all infinite-loop cases are fixed.
 The Node test helper supplies a data URL for the browser-oriented package's WASM loader.
+
+## Browser comparison
+
+One local in-app Chromium browser run on September 18, 2026, using the browser
+runner above. Times below are median milliseconds, not comparable directly with
+the earlier Node run (different warmup/sample counts and simple-box placement).
+
+| Case | Legacy | cdt2d | Delaunay32 | cdt2d / Delaunay32 |
+| --- | ---: | ---: | ---: | ---: |
+| Coplanar overlapping boxes | 0.50 | 0.70 | 1.00 | 0.70× |
+| Rotated boxes | 0.40 | 1.30 | 0.90 | 1.44× |
+| Spheres, 24 × 16 segments | 5.50 | 9.90 | 7.80 | 1.27× |
+| Spheres, 48 × 32 segments | 11.10 | 21.45 | 16.85 | 1.27× |
+| Near-coplanar boxes | 0.60 | 1.05 | 1.10 | 0.95× |
+
+All 15 cases completed. Simple-box volume was within 1e-6 of the expected 4;
+other output volumes agreed with legacy within an absolute tolerance of 1e-5.
+Volume agreement alone does not establish mesh validity. The near-coplanar case
+uses translation (1, 1e-7, 0) and Z rotation 1e-7 radians; it is synthetic and does
+not reproduce the maintainer's original infinite-loop reports. Browser timer
+resolution and system load make sub-millisecond differences especially noisy.

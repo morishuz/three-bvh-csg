@@ -1,11 +1,27 @@
 <!doctype html>
 <html lang="en">
-<head><meta charset="utf-8"><title>Delaunay32 CSG prototype</title></head>
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Delaunay32 CSG comparison</title>
+<style>
+body { font: 16px/1.5 system-ui, sans-serif; margin: 32px auto; padding: 0 24px; max-width: 1250px; color: #172333; background: #f5f7fa; }
+h1 { margin-bottom: 8px; } p { max-width: 950px; }
+button { padding: 10px 18px; margin: 8px 8px 8px 0; cursor: pointer; }
+.table { overflow-x: auto; } table { border-collapse: collapse; width: 100%; background: white; }
+th, td { padding: 10px; text-align: left; border-bottom: 1px solid #dfe4eb; white-space: nowrap; }
+th { background: #e8edf5; } #result { min-height: 24px; font-weight: 600; }
+</style>
+</head>
 <body>
-<h1>Delaunay32 CSG prototype</h1>
-<p>Optional WASM splitter. This smoke test subtracts two overlapping boxes; the expected volume is 4.</p>
-<button id="run" disabled>Run subtraction</button>
-<pre id="result">Loading WebAssembly…</pre>
+<h1>Compare the three CSG splitters</h1>
+<p>Identical subtraction geometry for Legacy (the default), cdt2d, and Delaunay32. Each case uses 10 warmups and 30 measured runs. Median and p95 measure complete evaluation with prepared geometry; setup, WASM loading, and worker messaging are excluded.</p>
+<p>Each case runs in a separate worker with a 20-second timeout. Keep this tab active and avoid other heavy work. “vs cdt2d” above 1× means faster. Volume agreement is a basic check, not proof of a watertight mesh. The near-coplanar case is synthetic, not Garrett’s original failing geometry.</p>
+<button id="run">Run comparison</button><button id="download" disabled>Download results</button>
+<p id="result" role="status">Ready. The comparison runs 15 backend/scenario combinations.</p>
+<div class="table"><table>
+<thead><tr><th>Geometry</th><th>Splitter</th><th>Median ms</th><th>p95 ms</th><th>vs cdt2d</th><th>Volume</th><th>Triangles</th><th>Check</th></tr></thead>
+<tbody id="results"></tbody>
+</table></div>
 <script type="module" src="./delaunay32.js"></script>
 </body>
 </html>
