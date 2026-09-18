@@ -15,7 +15,7 @@ const _vec2 = new Vector3();
 const _paramPool = new Pool( () => ( { param: 0, index: 0 } ) );
 const _vectorPool = new Pool( () => new Vector3() );
 
-function edgesToIndices( edges, outputVertices, outputIndices, epsilonScale ) {
+function edgesToIndices( edges, outputVertices, outputIndices, epsilonScale, boundary ) {
 
 	_paramPool.clear();
 
@@ -72,6 +72,13 @@ function edgesToIndices( edges, outputVertices, outputIndices, epsilonScale ) {
 		}
 
 		arr.sort( paramSort );
+
+		// Preserve every boundary subdivision when a backend uses an explicit domain.
+		if ( i < 3 ) {
+
+			for ( let a = 0; a < arr.length - 1; a ++ ) boundary.push( arr[ a ].index );
+
+		}
 
 		for ( let a = 0, la = arr.length - 1; a < la; a ++ ) {
 
@@ -251,7 +258,8 @@ export class CDTTriangleSplitter {
 		// Use custom deduplication and edge splitting
 		const vertices = [];
 		const indices = [];
-		edgesToIndices( edges2d, vertices, indices, epsilonScale );
+		const boundary = [];
+		edgesToIndices( edges2d, vertices, indices, epsilonScale, boundary );
 
 		const cdt2dPoints = [];
 		for ( let i = 0, l = vertices.length; i < l; i ++ ) {
@@ -262,7 +270,7 @@ export class CDTTriangleSplitter {
 		}
 
 		// Run the CDT triangulation
-		const triangulation = cdt2d( cdt2dPoints, indices, { exterior: false } );
+		const triangulation = this.triangulate2D( cdt2dPoints, indices, boundary );
 
 		// construct the half edge structure, marking the constrained edges as disconnected to
 		// mark the polygon edges
@@ -324,6 +332,13 @@ export class CDTTriangleSplitter {
 			}
 
 		}
+
+	}
+
+	// Override to experiment with other synchronous CDT backends.
+	triangulate2D( points, edges ) {
+
+		return cdt2d( points, edges, { exterior: false } );
 
 	}
 

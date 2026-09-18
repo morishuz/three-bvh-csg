@@ -21,7 +21,7 @@ export default [
 	// base rules
 	{
 		name: 'base rules',
-		files: [ '**/*.js', '**/*.ts' ],
+		files: [ '**/*.js', '**/*.mjs', '**/*.ts' ],
 		languageOptions: {
 			ecmaVersion: 2020,
 			sourceType: 'module',

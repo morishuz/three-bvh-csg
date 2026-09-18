@@ -1,0 +1,9 @@
+{"scenario":"boxes","backend":"legacy","medianMs":1.4897500000000008,"volume":3.553999958880947,"triangles":42,"callsPerOperation":0,"meanPoints":null,"maxPoints":0,"triangulationMsPerOperation":0}
+{"scenario":"boxes","backend":"cdt2d","medianMs":2.916646500000013,"volume":3.5539999855756763,"triangles":42,"callsPerOperation":12,"meanPoints":6.75,"maxPoints":8,"triangulationMsPerOperation":1.0680339999999888}
+{"scenario":"boxes","backend":"delaunay32","medianMs":3.185750000000013,"volume":3.5539999855756763,"triangles":42,"callsPerOperation":12,"meanPoints":6.75,"maxPoints":8,"triangulationMsPerOperation":0.6232797999999946}
+{"scenario":"rotated-boxes","backend":"legacy","medianMs":1.7613750000000437,"volume":3.599423427385047,"triangles":71,"callsPerOperation":0,"meanPoints":null,"maxPoints":0,"triangulationMsPerOperation":0}
+{"scenario":"rotated-boxes","backend":"cdt2d","medianMs":4.165479000000062,"volume":3.599423414887833,"triangles":66,"callsPerOperation":18,"meanPoints":7.5,"maxPoints":9,"triangulationMsPerOperation":2.10314589999997}
+{"scenario":"rotated-boxes","backend":"delaunay32","medianMs":2.8594375000000127,"volume":3.599423414887832,"triangles":66,"callsPerOperation":18,"meanPoints":7.5,"maxPoints":9,"triangulationMsPerOperation":0.8496287000000506}
+{"scenario":"spheres","backend":"legacy","medianMs":7.81716700000004,"volume":2.1752328146876225,"triangles":1061,"callsPerOperation":0,"meanPoints":null,"maxPoints":0,"triangulationMsPerOperation":0}
+{"scenario":"spheres","backend":"cdt2d","medianMs":12.365499999999997,"volume":2.1752328200984805,"triangles":1000,"callsPerOperation":140,"meanPoints":6,"maxPoints":8,"triangulationMsPerOperation":5.450170699999626}
+{"scenario":"spheres","backend":"delaunay32","medianMs":10.22335350000003,"volume":2.1752328200984783,"triangles":1000,"callsPerOperation":140,"meanPoints":6,"maxPoints":8,"triangulationMsPerOperation":3.007262900000478}
