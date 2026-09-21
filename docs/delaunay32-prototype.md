@@ -108,3 +108,16 @@ Volume agreement alone does not establish mesh validity. The near-coplanar case
 uses translation (1, 1e-7, 0) and Z rotation 1e-7 radians; it is synthetic and does
 not reproduce the maintainer's original infinite-loop reports. Browser timer
 resolution and system load make sub-millisecond differences especially noisy.
+
+## Reproducible robustness study
+
+The [155-fixture study](./robustness/README.md) compares the current cdt2d
+integration, a direct-test control with matching domain semantics, and Delaunay32.
+It includes independent exact-arithmetic triangulation checks, five invalid-input
+probes, full CSG cases, saved failing inputs and repeated timing samples.
+Run `npm run benchmark:robustness`; use `-- --case <id>` to replay one fixture.
+
+The study does **not** demonstrate a general robustness advantage for Delaunay32:
+its grid rejects five valid floating-point fixtures that cdt2d handles. Both
+integrations share a thin-solid volume failure. The full report separates these
+findings from parity-filtering differences and performance results.
